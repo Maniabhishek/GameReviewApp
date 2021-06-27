@@ -1,19 +1,42 @@
-import {popularGamesURL} from "../api";
-import {useDispatch} from "react-redux"
+import {popularGamesURL,newGamesURL} from "../api";
+import {upcomingGamesURL,searchGameURL} from "../api";
 import axios from "axios";
 
-const FETCH_GAMES = 'FETCH_GAMES';
+export const loadGames = () => async (dispatch)=>{
 
-// actionn creator
+    dispatch({
+        type:'ISLOADING',
+    })
 
-export const loadGames = ()=>async (dispatch) =>{
     const gameData = await axios.get(popularGamesURL());
-    console.log("😙",gameData);
+    const upComingGmeData = await axios.get(upcomingGamesURL());
+    const newGamesData = await axios.get(newGamesURL());
+
     dispatch({
         type:"FETCH_GAMES",
         payload:{
             popular:gameData.data.results,
-        }
+            upcoming:upComingGmeData.data.results,
+            newGames:newGamesData.data.results,
+            
+        },
     })
 }
 
+export const searchedGames = (searchedGame) =>async (dispatch)=>{
+
+    const searchedData = await axios.get(searchGameURL(searchedGame));
+
+    dispatch({
+        type:"SEARCHED_GAME",
+        payload:{
+            searched:searchedData.data.results,
+        },
+    })
+}
+
+export const clearSearched = () =>{
+    return {
+        type:'CLEAR_SEARCH',
+    }
+}

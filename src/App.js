@@ -1,16 +1,17 @@
 import React,{useEffect} from "react";
-import {useDispatch} from "react-redux";
-import {loadGames} from "./actions/gameAction";
+import Home from  "./pages/Home";
+import GlobalStyle from "./components/GlobalStyle"
+import {Route} from "react-router-dom";
+
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(loadGames())
-  })
-
+  
   return (
     <div className="App">
-      IGNITE
+      <GlobalStyle/>
+      <Route path={["/:id","/"]}>
+      <Home/>
+      </Route>
     </div>
   );
 }
